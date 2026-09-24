@@ -1,0 +1,61 @@
+{
+  "selected_by_cv": "random_forest",
+  "scale_pos_weight": 19.537688442211056,
+  "lr_params": {
+    "model__C": 0.1873817422860383
+  },
+  "xgb_params": {
+    "model__subsample": 0.9,
+    "model__reg_lambda": 5.0,
+    "model__n_estimators": 200,
+    "model__min_child_weight": 5,
+    "model__max_depth": 2,
+    "model__learning_rate": 0.02,
+    "model__gamma": 0.0,
+    "model__colsample_bytree": 0.7
+  },
+  "results": [
+    {
+      "model": "baseline_logistic",
+      "cv_pr_auc": 0.22983681087607236,
+      "roc_auc": 0.8367901234567902,
+      "pr_auc": 0.21896619144322116,
+      "brier": 0.041848531962998856
+    },
+    {
+      "model": "spline_logistic",
+      "cv_pr_auc": 0.2218526491019542,
+      "roc_auc": 0.8355144032921811,
+      "pr_auc": 0.2102326311571047,
+      "brier": 0.04222716889996451
+    },
+    {
+      "model": "xgboost",
+      "cv_pr_auc": 0.22037671963238892,
+      "roc_auc": 0.8347427983539095,
+      "pr_auc": 0.2197565967591444,
+      "brier": 0.17065124213695526
+    },
+    {
+      "model": "random_forest",
+      "cv_pr_auc": 0.24113443841063598,
+      "roc_auc": 0.8315020576131686,
+      "pr_auc": 0.2342333085147587,
+      "brier": 0.041825792717918364
+    },
+    {
+      "model": "random_forest_isotonic",
+      "cv_pr_auc": null,
+      "roc_auc": 0.8280349794238683,
+      "pr_auc": 0.24606786853886084,
+      "brier": 0.04141515359428807
+    },
+    {
+      "model": "stack_lr_xgb",
+      "cv_pr_auc": 0.20543535710337357,
+      "roc_auc": 0.8358024691358024,
+      "pr_auc": 0.21252954927565212,
+      "brier": 0.042064210332880186
+    }
+  ]
+}
