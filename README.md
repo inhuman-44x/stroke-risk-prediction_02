@@ -91,6 +91,20 @@ XGBoost achieved the highest test-set PR-AUC (**0.240**) and was therefore carri
 
 Bootstrap resampling was additionally used to estimate **95% confidence intervals for ROC-AUC and PR-AUC** on the held-out test set.
 
+### Follow-up on the same split
+
+`src/train_improved.py` and `src/train_blend.py` reuse the processed train and test tables. Models are chosen by cross-validated PR-AUC. The held-out logistic regression baseline matches the notebook (**ROC-AUC 0.837**, **PR-AUC 0.219**).
+
+A random forest with age interactions and a high-glucose flag, followed by isotonic calibration, is the best follow-up result:
+
+| Model | ROC-AUC | PR-AUC | Brier score |
+| ----- | ------: | -----: | ----------: |
+| Notebook logistic regression | 0.837 | 0.219 | 0.0418 |
+| Notebook XGBoost | 0.827 | 0.240 | 0.0418 |
+| Calibrated random forest | 0.828 | 0.246 | 0.0414 |
+
+PR-AUC rises from **0.240** to **0.246**, and the Brier score falls from **0.0418** to **0.0414**. ROC-AUC does not improve on **0.837**. Class-weighted XGBoost was not retained: its Brier score rose to **0.171**. Saved metrics are in `outputs/improved_results.json` and `outputs/blend_results.json`.
+
 ## Threshold Optimisation
 
 Because the objective of risk stratification is to identify individuals who may be at elevated risk, classification thresholds were selected using out-of-fold training predictions rather than directly optimising thresholds on the held-out test set.
