@@ -51,49 +51,11 @@ Logistic Regression was used as an interpretable baseline model. Random Forest w
 
 For all three models, **PR-AUC (average precision)** was used as the primary hyperparameter-tuning metric because of the substantial class imbalance.
 
-## Model Evaluation
-
-Models were evaluated on the held-out test set using:
-
-### ROC-AUC
-
-Measures the model's ability to distinguish between individuals with and without stroke across classification thresholds.
-
-### PR-AUC
-
-Measures the precision-recall trade-off and is particularly informative for imbalanced outcomes such as stroke in this dataset.
-
-### Brier Score
-
-Measures the accuracy of predicted probabilities, with lower values indicating better probabilistic accuracy.
-
-### Calibration
-
-Calibration curves were examined to assess agreement between predicted probabilities and observed stroke frequencies.
-
-### Risk Stratification
-
-The selected model's predicted probabilities were used to divide the test population into Low, Moderate, and High-risk strata. Observed stroke rates were then compared across these groups.
-
-These strata are **model-derived and have not been externally validated**. They therefore represent risk separation within this dataset rather than established clinical risk categories.
-
-## Model Performance
-
-### Cross-Validation
-
-The best hyperparameter configuration for each model was identified using 5-fold stratified cross-validation, with PR-AUC as the optimisation metric.
-
-### Held-Out Test Set
-
-The final models were evaluated on the previously unseen test set.
-
-XGBoost achieved the highest test-set PR-AUC (**0.240**) and was therefore carried forward for threshold optimisation, risk stratification, and feature interpretation.
-
-Bootstrap resampling was additionally used to estimate **95% confidence intervals for ROC-AUC and PR-AUC** on the held-out test set.
+A Random Forest model achieved the best **CV PR-AUC score (0.2693)**
 
 ### Follow-up on the same split
 
-`src/train_improved.py` and `src/train_blend.py` reuse the processed train and test tables. Models are chosen by cross-validated PR-AUC. The held-out logistic regression baseline matches the notebook (**ROC-AUC 0.837**, **PR-AUC 0.219**).
+`src/train_improved.py` and `src/train_blend.py` reuse the processed train and test files. Models are chosen by cross-validated PR-AUC. The held-out logistic regression baseline matches the notebook (**ROC-AUC 0.837**, **PR-AUC 0.219**).
 
 A random forest with age interactions and a high-glucose flag, followed by isotonic calibration, is the best follow-up result:
 
@@ -123,17 +85,17 @@ The resulting thresholds were then applied unchanged to the held-out test set.
 
 ## Risk Stratification Results
 
-The selected XGBoost model demonstrated clear separation in observed stroke rates across the three prediction-based strata.
+The selected Random Forest model demonstrated clear separation in observed stroke rates across the three prediction-based strata.
 
-| Risk stratum  |   n | Stroke events | Mean predicted risk | Observed stroke rate | Test population |
-| ------------- | --: | ------------: | ------------------: | -------------------: | --------------: |
-| Low risk      | 715 |            10 |                1.0% |                 1.4% |           70.0% |
-| Moderate risk | 297 |            37 |               12.5% |                12.5% |           29.1% |
-| High risk     |  10 |             3 |               38.7% |                30.0% |            1.0% |
+| Risk stratum  |   n | Stroke events | Observed stroke rate|
+| ------------- | --: | ------------: |-------------------: |
+| Low risk      | 743 |            10 |               1.35% |
+| Moderate risk | 271 |            38 |              14.02% |
+| High risk     |  8 |              2 |               25.0% |
 
 Observed stroke rates increased progressively across the strata:
 
-**1.4% → 12.5% → 30.0%**
+**1.35% → 14.02% → 25.0%**
 
 ## Limitations
 
